@@ -10,13 +10,13 @@
  * @update  Feb 8, 2025
  */
 
-function getLastSubmission() {
+function getLastSubmission_() {
   const sheet = MASTER_ATTENDANCE_SHEET;
   const startRow = 1;
   const numRow = sheet.getLastRow();
   
   // Fetch all values in the TIMESTAMP_COL
-  const values = sheet.getRange(startRow, TIMESTAMP_COL, numRow).getValues();
+  const values = sheet.getRange(startRow, COLUMN_MAP.TIMESTAMP, numRow).getValues();
   let lastRow = values.length;
 
   // Loop through the values in reverse order
@@ -59,7 +59,7 @@ function getLastSubmission() {
  * ```
  */
 
-function formatNamesInRow(targetCols, startRow=getLastSubmission(), numRow=1) {
+function formatNamesInRow_(targetCols, startRow=getLastSubmission(), numRow=1) {
   const sheet = MASTER_ATTENDANCE_SHEET;
 
   targetCols.forEach(targetCol => {

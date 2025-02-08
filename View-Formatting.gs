@@ -19,7 +19,7 @@ function sortAttendanceForm() {
   const range = sheet.getRange(2, 1, numRows, numCols);
 
   // Sorts values by `Timestamp`
-  range.sort([{ column: TIMESTAMP_COL, ascending: true }]);
+  range.sort([{ column: COLUMN_MAP.TIMESTAMP, ascending: true }]);
 }
 
 
@@ -88,17 +88,17 @@ function formatSpecificColumns() {
 
   // Link pixel size to column index
   const sizeMap = {
-    [TIMESTAMP_COL]: 150,
-    [HEADRUNNERS_COL]: 200,
-    [DAY_WEEK_COL]: 135,
-    [SCHEDULED_TIME_COL]: 115,
-    [HEADRUN_COL]: 155,
-    [RUN_LEVEL_COL]: 120,
-    [ATTENDEES_COL]: 340,
-    [CONFIRMATION_COL]: 90,
-    [DISTANCE_COL]: 110,
-    [COMMENTS_COL]: 260,
-    [IS_EXPORTED_COL]: 80,
+    [COLUMN_MAP.TIMESTAMP]: 150,
+    [COLUMN_MAP.HEADRUNNERS]: 200,
+    [COLUMN_MAP.DAY_WEEK]: 135,
+    [COLUMN_MAP.SCHEDULED_TIME]: 115,
+    [COLUMN_MAP.HEADRUN]: 155,
+    [COLUMN_MAP.RUN_LEVEL]: 120,
+    [COLUMN_MAP.ATTENDEES]: 340,
+    [COLUMN_MAP.CONFIRMATION]: 90,
+    [COLUMN_MAP.DISTANCE]: 110,
+    [COLUMN_MAP.COMMENTS]: 260,
+    [COLUMN_MAP.IS_EXPORTED]: 80,
   }
   
   // 8. Resize columns by corresponding pixel size

@@ -16,7 +16,7 @@ const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO
  * @update  Feb 8, 2025
  */
 
-function transferToSemesterSheet(row=getLastSubmission_()) {
+function transferToSemesterSheet(row=getLastSubmission_()-1) {
   const sheet = MASTER_ATTENDANCE_SHEET;
   const sourceRow = row;
   const sourceColSize = sheet.getLastColumn();
@@ -73,8 +73,9 @@ function prepareAttendanceSubmission(values) {
    * 14: Not Found (Names)
    */
 
-  // Return value from rawData using `index`
-  const get = (index => values[index - 1]);
+  // Return value from rawData using `index` and substitute newline with semi-colon.
+  // JSON does not accept multi-line values.
+  const get = (index => String(values[index - 1]).replace(/\n/g, ';'));
 
   const timestamp = new Date(`${get(COLUMN_MAP.TIMESTAMP)}`);
 
@@ -96,6 +97,7 @@ function prepareAttendanceSubmission(values) {
     'comments' : get(COLUMN_MAP.COMMENTS),
     'platform' : 'McRUN App',
   }
+
 
   return JSON.stringify(exportObj);
 }

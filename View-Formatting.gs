@@ -76,6 +76,7 @@ function formatSpecificColumns() {
 
   getThisRange([
     'H2:I',   // Confirmation + Distance
+    'J2:J',   // Comments
     'K2:K'    // Exported
   ]).setVerticalAlignment('middle');
 

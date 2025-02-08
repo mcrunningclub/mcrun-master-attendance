@@ -47,19 +47,19 @@ function getLastSubmission_() {
  * formatHeadRunnerInRow([ATTENDEES_COL]);
  * 
  * // Sample Script ➜ Format names in row `7` in TIMESTAMP and ATTENDEES.
- * const targetCols = [TIMESTAMP_COL, ATTENDEES_COL]
+ * const targetCols = [HEADRUNNER_COL, ATTENDEES_COL]
  * const rowToFormat = 7;
  * formatHeadRunnerInRow(targetCols, rowToFormat);
  *
  * // Sample Script ➜ Format names from row `3` to `9` in TIMESTAMP.
- * const targetCols = [TIMESTAMP_COL]
+ * const targetCols = [HEADRUNNER_COL]
  * const startRow = 3;
  * const numRow = 9 - startRow;
  * formatHeadRunnerInRow(targetCols, startRow, numRow);
  * ```
  */
 
-function formatNamesInRow_(targetCols, startRow=getLastSubmission(), numRow=1) {
+function formatNamesInRow_(targetCols, startRow=getLastSubmission_(), numRow=1) {
   const sheet = MASTER_ATTENDANCE_SHEET;
 
   targetCols.forEach(targetCol => {
@@ -85,4 +85,12 @@ function formatNamesInRow_(targetCols, startRow=getLastSubmission(), numRow=1) {
   });
 }
 
+function formatAllNamesInRow() {
+  const targetCols = [
+    COLUMN_MAP.HEADRUNNERS,
+    COLUMN_MAP.ATTENDEES,
+  ];
+
+  formatNamesInRow_(targetCols)
+}
 

@@ -70,6 +70,7 @@ function formatNamesInRow_(targetCols, startRow=getLastSubmission_(), numRow=1) 
     // Callback function to process the raw value into the formatted format
     function processRow(row) {
       const names = row[0]       // Get first column from 2D array
+        .replace(/[\u2018\u2019\u201b\u2032]/g, "'") // Normalize apostrophes
         .split(/,\s*|\s*,\s*/)   // Split by comma and/or spaces
         .join('\n');             // Join the names with a newline
 

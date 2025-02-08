@@ -25,7 +25,6 @@ function sortAttendanceForm() {
 
 function prettifySheet() {
   formatSpecificColumns();
-  hideAllAttendeeEmail();
 }
 
 

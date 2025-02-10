@@ -1,6 +1,6 @@
 // SHEET CONSTANTS
-const SHEET_ID = '30380045';
-const MASTER_ATTENDANCE_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetById(SHEET_ID);
+const MASTER_ATTENDANCE_SHEET_ID = '30380045';
+const MASTER_ATTENDANCE_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetById(MASTER_ATTENDANCE_SHEET_ID);
 
 const COLUMN_MAP = {
   TIMESTAMP: 1,

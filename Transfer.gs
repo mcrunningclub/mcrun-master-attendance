@@ -4,10 +4,33 @@ const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO
 
 
 function onChange(e) {
-  let thisSource;
+  const thisSource = e.source;
+  const thisChange = e.changeType;
 
-  try {
-    console.log(e);   // Log event details
+  // Verify if thisSource valid
+  if (!thisSource) {
+    console.log(`thisSource is not defined. Value: ${thisSource}`);
+    return;
+  }
+
+  const thisSheetID = thisSource.getSheetId();
+
+  // Exit early if the event is not related to the import sheet
+  if (thisChange !== 'INSERT_ROW' || thisSheetID != MASTER_ATTENDANCE_SHEET_ID) {
+    console.log(`
+      Early exit. Either e.changeType or source.sheetId() not as expected.
+      Type of change: ${thisChange} \tExpected: INSERT_ROW
+      thisSheetID: ${thisSheetID} \tExpected: ${MASTER_ATTENDANCE_SHEET_ID}`
+    );
+
+    return;
+  }
+
+  // Trigger formatting and transfer functions if new submission
+  transferToSemesterSheet();
+  formatAllNamesInRow();
+
+  /* try {
     thisSource = e.source;
     const thisChange = e.changeType;
     const thisSheetID = thisSource.getSheetId();
@@ -27,16 +50,15 @@ function onChange(e) {
     transferToSemesterSheet();
     formatAllNamesInRow();
   }
-
   catch (error) {
-    if (!thisSource) {
+    if (thisSource) {
       console.log(`thisSource is not defined. Value: ${thisSource}`);
       return;
     }
 
-    const errMsg = `(onChange): ${error}\n${console.log(e)}`;
+    const errMsg = `(onChange): ${error}\n${e}`;
     throw new Error(errMsg);
-  }
+  } */
 }
 
 

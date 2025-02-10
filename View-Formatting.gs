@@ -86,6 +86,16 @@ function formatSpecificColumns() {
     'K2:K',   // Exported
   ]).setHorizontalAlignment('center');
 
+  // 8. Set wrapping for comments
+  getThisRange('J2:J').setWrap(true);
+
+  // 9. Add checkboxes to confirmation + exported
+  const lastRow = getLastSubmission_();
+  getThisRange([
+    'H2:H' + lastRow,   // Confirmation
+    'K2:K' + lastRow,   // Exported
+  ]).insertCheckboxes();
+
 
   // Link pixel size to column index
   const sizeMap = {
@@ -102,7 +112,7 @@ function formatSpecificColumns() {
     [COLUMN_MAP.IS_EXPORTED]: 80,
   }
   
-  // 8. Resize columns by corresponding pixel size
+  // 10. Resize columns by corresponding pixel size
   for (const [col, width] of Object.entries(sizeMap)) {
     sheet.setColumnWidth(col, width);
   }

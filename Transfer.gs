@@ -7,58 +7,61 @@ function onChange(e) {
   const thisSource = e.source;
   const thisChange = e.changeType;
 
-  // Verify if thisSource valid
-  if (!thisSource) {
-    console.log(`thisSource is not defined. Value: ${thisSource}`);
-    return;
-  }
-
-  const thisSheetID = thisSource.getSheetId();
-
-  // Exit early if the event is not related to the import sheet
-  if (thisChange !== 'INSERT_ROW' || thisSheetID != MASTER_ATTENDANCE_SHEET_ID) {
+  if (thisChange !== 'EDIT') {
     console.log(`
-      Early exit. Either e.changeType or source.sheetId() not as expected.
-      Type of change: ${thisChange} \tExpected: INSERT_ROW
-      thisSheetID: ${thisSheetID} \tExpected: ${MASTER_ATTENDANCE_SHEET_ID}`
+      Early exit due to invalid e.changeType
+      Expected: EDIT \tReceived: ${thisChange}`
     );
 
     return;
   }
 
-  // Trigger formatting and transfer functions if new submission
-  transferToSemesterSheet();
-  formatAllNamesInRow();
+  console.log('thisChange\n\n', thisChange);
+  console.log('e.user\n\n', e.user);
+  console.log('e.source.toString()\n\n', e.source.toString());
+  console.log('e.source.getName()\n\n', e.source.getName());
 
-  /* try {
-    thisSource = e.source;
-    const thisChange = e.changeType;
+  try {
     const thisSheetID = thisSource.getSheetId();
 
+    // Verify if thisSource valid
+    if (!thisSource) {
+      console.log(`thisSource is not defined.`);
+      console.log(`e.source: ${e.source} - e.changeType: ${e.changeType}`);
+      return;
+    }
+
     // Exit early if the event is not related to the import sheet
-    if (thisChange !== 'INSERT_ROW' || thisSheetID != MASTER_ATTENDANCE_SHEET_ID) {
+    if (thisSheetID != MASTER_ATTENDANCE_SHEET_ID) {
       console.log(`
         Early exit. Either e.changeType or source.sheetId() not as expected.
-        Type of change: ${thisChange}. Expected 'INSERT_ROW'
-        thisSheetID: ${thisSheetID}. Expected ${MASTER_ATTENDANCE_SHEET_ID}`
+        Type of change: ${thisChange} \tExpected: INSERT_ROW
+        thisSheetID: ${thisSheetID} \tExpected: ${MASTER_ATTENDANCE_SHEET_ID}`
       );
 
       return;
     }
 
     // Trigger formatting and transfer functions if new submission
-    transferToSemesterSheet();
+    console.log('Now triggering maintenance functions.');
+
+    //transferToSemesterSheet();    // CURRENTLY TRANSFERED BY ZAPIER
     formatAllNamesInRow();
+    prettifySheet();
+
+    console.log('Completed execution of maintenance functions.')
+    
   }
-  catch (error) {
-    if (thisSource) {
-      console.log(`thisSource is not defined. Value: ${thisSource}`);
-      return;
+  catch(error) {
+    console.log(error);
+    console.log(`Type of change: ${thisChange}`);
+    
+    if (!(error.message).includes('Please select an active sheet first.')) {
+      throw new Error(error);
     }
 
-    const errMsg = `(onChange): ${error}\n${e}`;
-    throw new Error(errMsg);
-  } */
+    console.log(error.message);
+  }
 }
 
 

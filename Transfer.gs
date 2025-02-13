@@ -6,7 +6,7 @@ const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO
 function onChange(e) {
   const thisSource = e.source;
   const thisChange = e.changeType;
-
+  
   if (thisChange !== 'EDIT') {
     console.log(`
       Early exit due to invalid e.changeType
@@ -18,7 +18,6 @@ function onChange(e) {
 
   console.log('thisChange\n\n', thisChange);
   console.log('e.user\n\n', e.user);
-  console.log('e.source.toString()\n\n', e.source.toString());
   console.log('e.source.getName()\n\n', e.source.getName());
 
   try {
@@ -35,7 +34,6 @@ function onChange(e) {
     if (thisSheetID != MASTER_ATTENDANCE_SHEET_ID) {
       console.log(`
         Early exit. Either e.changeType or source.sheetId() not as expected.
-        Type of change: ${thisChange} \tExpected: INSERT_ROW
         thisSheetID: ${thisSheetID} \tExpected: ${MASTER_ATTENDANCE_SHEET_ID}`
       );
 
@@ -45,12 +43,11 @@ function onChange(e) {
     // Trigger formatting and transfer functions if new submission
     console.log('Now triggering maintenance functions.');
 
-    //transferToSemesterSheet();    // CURRENTLY TRANSFERED BY ZAPIER
+    transferToSemesterSheet();
     formatAllNamesInRow();
     prettifySheet();
 
     console.log('Completed execution of maintenance functions.')
-    
   }
   catch(error) {
     console.log(error);
@@ -76,33 +73,58 @@ function onChange(e) {
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
- * @update  Feb 8, 2025
+ * @update  Feb 13, 2025
  */
 
-function transferToSemesterSheet(row=getLastSubmission_()-1) {
+function transferToSemesterSheet(row=getLastSubmission_()) {
   const sheet = MASTER_ATTENDANCE_SHEET;
   const sourceRow = row;
   const sourceColSize = sheet.getLastColumn();
 
   const rangeSource = sheet.getRange(sourceRow, 1, 1, sourceColSize);
-  const values = rangeSource.getValues()[0];  // Get submission row
+  const values = rangeSource.getDisplayValues();  // Get submission row
 
   // Prepare registration data to export
   const exportJson = prepareAttendanceSubmission(values);
 
-  // `Memberships Collected (Main)` GSheet
+  // Current Attendance GSheet
   const sheetURL = SEMESTER_ATTENDANCE_URL;
   const ss = SpreadsheetApp.openByUrl(sheetURL);
   const importSheet = ss.getSheetById(ATTENDANCE_IMPORT_ID);
    
   // Export registration to `Import` sheet
-  const newRow = importSheet.getLastRow();
-  const rangeNewImport = importSheet.getRange(newRow, 1);
-  rangeNewImport.setValue(exportJson);
+  importSheet.appendRow(exportJson);
+  
+  const rangeIsExported = sheet.getRange(sourceRow, COLUMN_MAP.IS_EXPORTED);
+  rangeIsExported.setValue(true);
 
-  // This triggers the `onChange(e)` function
-  importSheet.insertRowAfter(newRow);
+  console.log(`Successfully exported values to row ${importSheet.getLastRow()} in importSheet!`);
+
+  /**
+   * Once exported, `importSheet` does not process the submission until it checks for missing attendance.
+   * The triggers for checking attendance are time-based.
+   * 
+   * Previous attempt to trigger `onChange(e)` for `importSheet` did not work.
+   * This is due to GAS restrictions. See page below for more information.
+   * 
+   * https://developers.google.com/apps-script/guides/triggers/installable#google_apps_triggers
+   * 
+   * These are the functions that were used to try and externally trigger `onChange(e)`:
+   * 
+   * sheet.setValues
+   * sheet.appendRow
+   * sheet.activate
+   * sheet.insertRowAfter
+   * sheet.hideRow + sheet.unhideRow
+   * sheet.hideRows + sheet.showRows
+   * sheet.deleteRow
+   * ss.setActiveRange
+   * ss.insertSheet + ss.deleteSheet
+   * 
+   */
 }
+
+
 
 /**
  * Prepare the attendance values into JSON object.

@@ -16,8 +16,6 @@ const COLUMN_MAP = {
   IS_EXPORTED: 11,
 }
 
-// LIST OF COLUMNS IN SHEET_NAME
-
 const TIMEZONE = getUserTimeZone_();
 
 

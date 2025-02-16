@@ -24,7 +24,7 @@ function sortAttendanceForm() {
 
 
 function prettifySheet() {
-  formatSpecificColumns();
+  formatSpecificColumns_();
 }
 
 
@@ -38,7 +38,7 @@ function prettifySheet() {
  * @update  Feb 8, 2025
  */
 
-function formatSpecificColumns() {
+function formatSpecificColumns_() {
   const sheet = MASTER_ATTENDANCE_SHEET;
 
   // Helper fuction to improve readability

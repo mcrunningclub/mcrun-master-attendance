@@ -73,7 +73,7 @@ function onChange(e) {
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
- * @update  Feb 13, 2025
+ * @update  Feb 16, 2025
  */
 
 function transferToSemesterSheet(row=getLastSubmission_()) {
@@ -85,7 +85,7 @@ function transferToSemesterSheet(row=getLastSubmission_()) {
   const values = rangeSource.getDisplayValues();  // Get submission row
 
   // Prepare registration data to export
-  const exportJson = prepareAttendanceSubmission(values);
+  const exportJSON = prepareAttendanceSubmission(values);
 
   // Current Attendance GSheet
   const sheetURL = SEMESTER_ATTENDANCE_URL;
@@ -93,7 +93,7 @@ function transferToSemesterSheet(row=getLastSubmission_()) {
   const importSheet = ss.getSheetById(ATTENDANCE_IMPORT_ID);
    
   // Export registration to `Import` sheet
-  importSheet.appendRow(exportJson);
+  importSheet.appendRow([exportJSON]);
   
   const rangeIsExported = sheet.getRange(sourceRow, COLUMN_MAP.IS_EXPORTED);
   rangeIsExported.setValue(true);
@@ -129,13 +129,13 @@ function transferToSemesterSheet(row=getLastSubmission_()) {
 /**
  * Prepare the attendance values into JSON object.
  * 
- * @param {String[]} values  Run attendance information.
+ * @param {string[]} values  Run attendance information.
  * 
- * @return {String<JSON>}  Converts `values` to a JSON string.
+ * @return {string}  JSON-formatted string.
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
- * @update  Feb 8, 2025
+ * @update  Feb 16, 2025
  */
 
 function prepareAttendanceSubmission(values) {
@@ -182,7 +182,6 @@ function prepareAttendanceSubmission(values) {
     'comments' : get(COLUMN_MAP.COMMENTS),
     'platform' : 'McRUN App',
   }
-
 
   return JSON.stringify(exportObj);
 }

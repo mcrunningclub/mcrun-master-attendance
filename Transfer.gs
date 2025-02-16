@@ -82,7 +82,7 @@ function transferToSemesterSheet(row=getLastSubmission_()) {
   const sourceColSize = sheet.getLastColumn();
 
   const rangeSource = sheet.getRange(sourceRow, 1, 1, sourceColSize);
-  const values = rangeSource.getDisplayValues();  // Get submission row
+  const values = rangeSource.getDisplayValues()[0];  // Get submission row
 
   // Prepare registration data to export
   const exportJSON = prepareAttendanceSubmission(values);

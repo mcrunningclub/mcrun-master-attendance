@@ -6,7 +6,7 @@ const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO
 function onChange(e) {
   const thisSource = e.source;
   const thisChange = e.changeType;
-  
+
   if (thisChange !== 'EDIT') {
     console.log(`
       Early exit due to invalid e.changeType
@@ -40,24 +40,23 @@ function onChange(e) {
       return;
     }
 
-    // Trigger formatting and transfer functions if new submission
-    console.log('Now triggering maintenance functions.');
-
+    // Trigger transfer functions for new submission
     transferToSemesterSheet();
-    formatAllNamesInRow();
-    prettifySheet();
-
-    console.log('Completed execution of maintenance functions.')
   }
-  catch(error) {
+  catch (error) {
     console.log(error);
     console.log(`Type of change: ${thisChange}`);
-    
+
     if (!(error.message).includes('Please select an active sheet first.')) {
       throw new Error(error);
     }
 
     console.log(error.message);
+  }
+  finally {
+    console.log('Now triggering maintenance functions (App attendance sheet)');
+    formatAllNamesInRow();
+    prettifySheet();
   }
 }
 
@@ -65,7 +64,7 @@ function onChange(e) {
 /**
  * Transfers attendance submission to semester attendance sheet.
  * 
- * Exports using `openByUrl` and creating JSON object.
+ * Exports by sending JSON object with connected library. Previously sent with `openByUrl`.
  * 
  * @trigger New app submission.
  * 
@@ -73,32 +72,46 @@ function onChange(e) {
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
- * @update  Feb 16, 2025
+ * @update  Apr 7, 2025
  */
 
-function transferToSemesterSheet(row=getLastSubmission_()) {
+function transferToSemesterSheet(row = getLastSubmission_()) {
   const sheet = MASTER_ATTENDANCE_SHEET;
-  const sourceRow = row;
-  const sourceColSize = sheet.getLastColumn();
+  const colSize = sheet.getLastColumn();
 
-  const rangeSource = sheet.getRange(sourceRow, 1, 1, sourceColSize);
+  const rangeSource = sheet.getRange(row, 1, 1, colSize);
   const values = rangeSource.getDisplayValues()[0];  // Get submission row
 
   // Prepare registration data to export
   const exportJSON = prepareAttendanceSubmission(values);
 
-  // Current Attendance GSheet
-  const sheetURL = SEMESTER_ATTENDANCE_URL;
-  const ss = SpreadsheetApp.openByUrl(sheetURL);
-  const importSheet = ss.getSheetById(ATTENDANCE_IMPORT_ID);
-   
-  // Export registration to `Import` sheet
-  importSheet.appendRow([exportJSON]);
-  
-  const rangeIsExported = sheet.getRange(sourceRow, COLUMN_MAP.IS_EXPORTED);
-  rangeIsExported.setValue(true);
+  // Try to send using library first. Attendance sheet aware of new import.
+  try {
+    Logger.log("START OF 'processImportFromApp' LOG MESSAGES\n\n");
+    Attendance_Code_2024_2025.processImportFromApp(exportJSON);
+    Logger.log("\n\nEND OF 'processImportFromApp' LOG MESSAGES");
+  }
+  // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered
+  catch(e) {
+    Logger.log(`Unable to transfer submission with library. Now trying with 'openByUrl'...`);
 
-  console.log(`Successfully exported values to row ${importSheet.getLastRow()} in importSheet!`);
+    // Get sheet using url
+    const sheetURL = SEMESTER_ATTENDANCE_URL;
+    const ss = SpreadsheetApp.openByUrl(sheetURL);
+    const importSheet = ss.getSheetById(ATTENDANCE_IMPORT_ID);
+
+    // Export registration to `Import` sheet
+    const newRow = importSheet.getLastRow() + 1;
+    importSheet.appendRow([exportJSON]);
+
+    // Log success message
+    Logger.log(`Transfered submission with 'openByUrl to row ${newRow} (Import sheet)`);
+  }
+
+  // Set submission as exported
+  const rangeIsExported = sheet.getRange(row, COLUMN_MAP.IS_EXPORTED);
+  rangeIsExported.setValue(true);
+  Logger.log(`Submission in row ${row} marked as exported (App attendance sheet)`);
 
   /**
    * Once exported, `importSheet` does not process the submission until it checks for missing attendance.
@@ -120,10 +133,8 @@ function transferToSemesterSheet(row=getLastSubmission_()) {
    * sheet.deleteRow
    * ss.setActiveRange
    * ss.insertSheet + ss.deleteSheet
-   * 
    */
 }
-
 
 
 /**
@@ -169,18 +180,18 @@ function prepareAttendanceSubmission(values) {
     TIMEZONE,
     "yyyy-MM-dd HH:mm:ss"
   );
-  
+
   // Initial Mapping
   const exportObj = {
-    'timestamp' : formattedTimestamp,
-    'headrunners' : get(COLUMN_MAP.HEADRUNNERS),
-    'headRun' : get(COLUMN_MAP.HEADRUN),
-    'runLevel' : get(COLUMN_MAP.RUN_LEVEL),
-    'attendees' : get(COLUMN_MAP.ATTENDEES),
-    'confirmation' : get(COLUMN_MAP.CONFIRMATION),
-    'distance' : get(COLUMN_MAP.DISTANCE),
-    'comments' : get(COLUMN_MAP.COMMENTS),
-    'platform' : 'McRUN App',
+    'timestamp': formattedTimestamp,
+    'headrunners': get(COLUMN_MAP.HEADRUNNERS),
+    'headRun': get(COLUMN_MAP.HEADRUN),
+    'runLevel': get(COLUMN_MAP.RUN_LEVEL),
+    'attendees': get(COLUMN_MAP.ATTENDEES),
+    'confirmation': get(COLUMN_MAP.CONFIRMATION),
+    'distance': get(COLUMN_MAP.DISTANCE),
+    'comments': get(COLUMN_MAP.COMMENTS),
+    'platform': 'McRUN App',
   }
 
   return JSON.stringify(exportObj);

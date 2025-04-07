@@ -1,6 +1,14 @@
 {
   "timeZone": "America/Toronto",
   "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "Attendance_Code_2024_2025",
+        "version": "0",
+        "libraryId": "1alVHJTwNdIvc_3t2jSNhhy_1kVI-sjryNoJJvZsTe9nDgLtIv9HKfL6c",
+        "developmentMode": true
+      }
+    ]
   },
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8"

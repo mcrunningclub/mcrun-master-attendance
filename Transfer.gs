@@ -54,7 +54,7 @@ function onChange(e) {
     console.log(error.message);
   }
   finally {
-    console.log('Now triggering maintenance functions (App attendance sheet)');
+    console.log('(AC-M) Now triggering maintenance functions');
     formatAllNamesInRow();
     prettifySheet();
   }
@@ -87,13 +87,13 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
 
   // Try to send using library first. Attendance sheet aware of new import.
   try {
-    Logger.log("START OF 'processImportFromApp' LOG MESSAGES\n\n");
+    Logger.log("\n---START OF 'processImportFromApp' LOG MESSAGES\n\n");
     Attendance_Code_2024_2025.processImportFromApp(exportJSON);
-    Logger.log("\n\nEND OF 'processImportFromApp' LOG MESSAGES");
+    Logger.log("\n---END OF 'processImportFromApp' LOG MESSAGES");
   }
   // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered
   catch(e) {
-    Logger.log(`Unable to transfer submission with library. Now trying with 'openByUrl'...`);
+    Logger.log(`(AC-M) Unable to transfer submission with library. Now trying with 'openByUrl'...`);
 
     // Get sheet using url
     const sheetURL = SEMESTER_ATTENDANCE_URL;
@@ -105,7 +105,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
     importSheet.appendRow([exportJSON]);
 
     // Log success message
-    Logger.log(`Transfered submission with 'openByUrl to row ${newRow} (Import sheet)`);
+    Logger.log(`(AC-M) Transfered submission with 'openByUrl to row ${newRow} (Import sheet)`);
   }
 
   // Set submission as exported

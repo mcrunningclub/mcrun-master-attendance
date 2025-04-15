@@ -54,7 +54,7 @@ function onChange(e) {
     console.log(error.message);
   }
   finally {
-    console.log('(AC-M) Now triggering maintenance functions');
+    console.log('[AC-M] Now triggering maintenance functions');
     formatAllNamesInRow();
     prettifySheet();
   }
@@ -93,7 +93,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
   }
   // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered
   catch(e) {
-    Logger.log(`(AC-M) Unable to transfer submission with library. Now trying with 'openByUrl'...`);
+    Logger.log(`[AC-M] Unable to transfer submission with library. Now trying with 'openByUrl'...`);
 
     // Get sheet using url
     const sheetURL = SEMESTER_ATTENDANCE_URL;
@@ -105,7 +105,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
     importSheet.appendRow([exportJSON]);
 
     // Log success message
-    Logger.log(`(AC-M) Transfered submission with 'openByUrl to row ${newRow} (Import sheet)`);
+    Logger.log(`[AC-M] Transfered submission with 'openByUrl to row ${newRow} (Import sheet)`);
   }
 
   // Set submission as exported

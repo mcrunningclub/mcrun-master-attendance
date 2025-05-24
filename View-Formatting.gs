@@ -1,5 +1,7 @@
 /**
- * Sorts sheet according to submission time.
+ * Sorts the master attendance sheet by submission time (Timestamp column).
+ *
+ * This function sorts all rows (except the header) in ascending order based on the Timestamp column.
  *
  * @trigger  Edit time.
  *
@@ -23,15 +25,22 @@ function sortAttendanceForm() {
 }
 
 
+/**
+ * Applies formatting to the master attendance sheet for improved readability.
+ *
+ * Calls formatSpecificColumns_ to apply consistent formatting to key columns.
+ */
+
 function prettifySheet() {
   formatSpecificColumns_();
 }
 
 
 /**
- * Formats certain columns of Master sheet for a consistent view.
- * 
- * @trigger New Google form or app submission.
+ * Formats certain columns of the master attendance sheet for a consistent view.
+ *
+ * This function applies formatting such as font weight, font size, alignment, number formats,
+ * column widths, and checkboxes to specific columns for better readability and usability.
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
@@ -116,5 +125,4 @@ function formatSpecificColumns_() {
   for (const [col, width] of Object.entries(sizeMap)) {
     sheet.setColumnWidth(col, width);
   }
-
 }

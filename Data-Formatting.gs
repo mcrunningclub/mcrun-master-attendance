@@ -1,10 +1,11 @@
 /**
- * Find row index of last submission in reverse using while-loop.
+ * Finds the row index of the last non-empty submission in the master attendance sheet.
+ *
+ * This function iterates backwards through the TIMESTAMP column to find the last row
+ * with a non-empty value, avoiding issues with getLastRow() returning empty rows.
+ *
+ * @returns {number} The 1-based index of the last non-empty row in the sheet.
  * 
- * Used to prevent native `sheet.getLastRow()` from returning empty row.
- * 
- * @return {integer}  Returns 1-index of last row in GSheet.
- *  
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
  * @update  Feb 8, 2025
@@ -85,6 +86,12 @@ function formatNamesInRow_(targetCols, startRow=getLastSubmission_(), numRow=1) 
 
   });
 }
+
+/**
+ * Formats all relevant name columns in the last submission row.
+ *
+ * Calls formatNamesInRow_ for HEADRUNNERS and ATTENDEES columns.
+ */
 
 function formatAllNamesInRow() {
   const targetCols = [

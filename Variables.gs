@@ -20,11 +20,15 @@ const TIMEZONE = getUserTimeZone_();
 
 
 /**
- * Returns timezone for currently running script.
+ * Returns the timezone for the currently running script as a geographical location string.
  *
- * Prevents incorrect time formatting during time changes like Daylight Savings Time.
+ * This function ensures that all date and time formatting operations use the correct timezone,
+ * preventing issues such as incorrect time display during Daylight Savings Time transitions.
  *
- * @return {string}  Timezone as geographical location (e.g.`'America/Montreal'`).
+ * @returns {string} The timezone in IANA format (e.g., 'America/Montreal').
+ * 
+ * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @date Feb 8, 2025
  */
 
 function getUserTimeZone_() {

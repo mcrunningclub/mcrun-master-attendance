@@ -2,6 +2,18 @@
 const ATTENDANCE_IMPORT_ID = '82376152';
 const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO4idXXb07X8EakiItOOORw5UuEOg0dX_an3T4/';
 
+/**
+ * Triggered when a change occurs in the spreadsheet.
+ *
+ * Handles edit events for the master attendance sheet. If the change is an edit on the correct sheet,
+ * it triggers the transfer of the latest submission to the semester attendance sheet and runs maintenance formatting functions.
+ *
+ * @param {Events.SheetsOnChange} e - The event object containing information about the change.
+ * 
+ * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @date Feb 8, 2025
+ * @update May 24, 2025
+ */
 
 function onChange(e) {
   const thisSource = e.source;
@@ -62,13 +74,14 @@ function onChange(e) {
 
 
 /**
- * Transfers attendance submission to semester attendance sheet.
- * 
- * Exports by sending JSON object with connected library. Previously sent with `openByUrl`.
+ * Transfers the latest attendance submission to the semester attendance sheet.
+ *
+ * Attempts to use the connected library for transfer; if it fails, falls back to direct sheet access via URL.
+ * Marks the submission as exported upon success.
  * 
  * @trigger New app submission.
  * 
- * @param {integer} [row=getLastSubmission_()] row  Row index in GSheet.
+ * @param {number} [row=getLastSubmission_()]  Row index in the master attendance sheet to transfer (1-based).
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
  * @date  Feb 8, 2025
@@ -141,7 +154,6 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
  * Prepare the attendance values into JSON object.
  * 
  * @param {string[]} values  Run attendance information.
- * 
  * @return {string}  JSON-formatted string.
  *
  * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)

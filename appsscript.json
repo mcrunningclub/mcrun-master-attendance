@@ -1,15 +1,22 @@
 {
   "timeZone": "America/Toronto",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
   "dependencies": {
     "libraries": [
       {
         "userSymbol": "Attendance_Code_2024_2025",
-        "version": "0",
         "libraryId": "1alVHJTwNdIvc_3t2jSNhhy_1kVI-sjryNoJJvZsTe9nDgLtIv9HKfL6c",
+        "version": "0",
         "developmentMode": true
       }
     ]
   },
-  "exceptionLogging": "STACKDRIVER",
-  "runtimeVersion": "V8"
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/script.scriptapp",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ]
 }

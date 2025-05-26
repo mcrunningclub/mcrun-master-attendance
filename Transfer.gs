@@ -107,6 +107,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
   // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered
   catch(e) {
     Logger.log(`[AC-M] Unable to transfer submission with library. Now trying with 'openByUrl'...`);
+    Logger.log(`[AC-M] ${error.message}`);
 
     // Get sheet using url
     const sheetURL = SEMESTER_ATTENDANCE_URL;
@@ -124,7 +125,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
   // Set submission as exported
   const rangeIsExported = sheet.getRange(row, COLUMN_MAP.IS_EXPORTED);
   rangeIsExported.setValue(true);
-  Logger.log(`Submission in row ${row} marked as exported (App attendance sheet)`);
+  Logger.log(`[AC-M] Submission in row ${row} marked as exported (App attendance sheet)`);
 
   /**
    * Once exported, `importSheet` does not process the submission until it checks for missing attendance.
@@ -208,4 +209,3 @@ function prepareAttendanceSubmission(values) {
 
   return JSON.stringify(exportObj);
 }
-

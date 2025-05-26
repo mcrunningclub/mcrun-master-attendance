@@ -101,4 +101,3 @@ function formatAllNamesInRow() {
 
   formatNamesInRow_(targetCols)
 }
-

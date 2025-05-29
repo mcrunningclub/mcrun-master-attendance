@@ -6,7 +6,7 @@
  *
  * @returns {number} The 1-based index of the last non-empty row in the sheet.
  * 
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date  Feb 8, 2025
  * @update  Feb 8, 2025
  */
@@ -39,25 +39,24 @@ function getLastSubmission_() {
  *
  * @param {integer} [numRow=1] numRow  Number of rows to format from `startRow`.
  *
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date  Feb 8, 2025
  * @update  Feb 8, 2025
  *
- * ```javascript
- * // Sample Script ➜ Format names in last row for ATTENDEES.
+ * @example
+ * // Format names in last row for ATTENDEES.
  * formatHeadRunnerInRow([ATTENDEES_COL]);
- * 
- * // Sample Script ➜ Format names in row `7` in TIMESTAMP and ATTENDEES.
+ * @example
+ * // Format names in row `7` in TIMESTAMP and ATTENDEES.
  * const targetCols = [HEADRUNNER_COL, ATTENDEES_COL]
  * const rowToFormat = 7;
  * formatHeadRunnerInRow(targetCols, rowToFormat);
- *
- * // Sample Script ➜ Format names from row `3` to `9` in TIMESTAMP.
+ * @example
+ * // Format names from row `3` to `9` in TIMESTAMP.
  * const targetCols = [HEADRUNNER_COL]
  * const startRow = 3;
  * const numRow = 9 - startRow;
  * formatHeadRunnerInRow(targetCols, startRow, numRow);
- * ```
  */
 
 function formatNamesInRow_(targetCols, startRow=getLastSubmission_(), numRow=1) {

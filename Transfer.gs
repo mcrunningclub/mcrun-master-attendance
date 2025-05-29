@@ -1,5 +1,14 @@
 // SEMESTER ATTENDANCE SHEET
+/**
+ * ID of semester attendance sheet
+ * @constant {string}
+ */
 const ATTENDANCE_IMPORT_ID = '82376152';
+
+/**
+ * URL of sememseter attendance sheet
+ * @constant {string}
+ */
 const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO4idXXb07X8EakiItOOORw5UuEOg0dX_an3T4/';
 
 /**
@@ -10,7 +19,7 @@ const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO
  *
  * @param {Events.SheetsOnChange} e - The event object containing information about the change.
  * 
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date Feb 8, 2025
  * @update May 24, 2025
  */
@@ -83,7 +92,7 @@ function onChange(e) {
  * 
  * @param {number} [row=getLastSubmission_()]  Row index in the master attendance sheet to transfer (1-based).
  *
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date  Feb 8, 2025
  * @update  Apr 7, 2025
  */
@@ -157,7 +166,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
  * @param {string[]} values  Run attendance information.
  * @return {string}  JSON-formatted string.
  *
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date  Feb 8, 2025
  * @update  Feb 16, 2025
  */

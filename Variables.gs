@@ -1,7 +1,21 @@
 // SHEET CONSTANTS
+/**
+ * Master attendance sheet id
+ * @constant {string}
+ */
 const MASTER_ATTENDANCE_SHEET_ID = '30380045';
+
+/** 
+ * Master attendance sheet object
+ * @constant {Spreadsheet}
+ */
 const MASTER_ATTENDANCE_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetById(MASTER_ATTENDANCE_SHEET_ID);
 
+/**
+ * Indices of columns in attendance sheet
+ * @constant
+ * @enum {number}
+ */
 const COLUMN_MAP = {
   TIMESTAMP: 1,
   HEADRUNNERS: 2,
@@ -16,6 +30,10 @@ const COLUMN_MAP = {
   IS_EXPORTED: 11,
 }
 
+/**
+ * Timezone of script
+ * @constant {string}
+ */
 const TIMEZONE = getUserTimeZone_();
 
 
@@ -27,7 +45,7 @@ const TIMEZONE = getUserTimeZone_();
  *
  * @returns {string} The timezone in IANA format (e.g., 'America/Montreal').
  * 
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date Feb 8, 2025
  */
 

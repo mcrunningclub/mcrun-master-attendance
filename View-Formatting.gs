@@ -5,7 +5,7 @@
  *
  * @trigger  Edit time.
  *
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date  Feb 8, 2025
  * @update  Feb 8, 2025
  *
@@ -42,7 +42,7 @@ function prettifySheet() {
  * This function applies formatting such as font weight, font size, alignment, number formats,
  * column widths, and checkboxes to specific columns for better readability and usability.
  *
- * @author [Andrey Gonzalez](<andrey.gonzalez@mail.mcgill.ca>)
+ * @author [Andrey Gonzalez](andrey.gonzalez@mail.mcgill.ca)
  * @date  Feb 8, 2025
  * @update  Feb 8, 2025
  */

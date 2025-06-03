@@ -57,7 +57,6 @@ function onChange(e) {
         Early exit. Either e.changeType or source.sheetId() not as expected.
         thisSheetID: ${thisSheetID} \tExpected: ${MASTER_ATTENDANCE_SHEET_ID}`
       );
-
       return;
     }
 
@@ -114,7 +113,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
     Logger.log("\n---END OF 'processImportFromApp' LOG MESSAGES");
   }
   // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered
-  catch(e) {
+  catch (error) {
     Logger.log(`[AC-M] Unable to transfer submission with library. Now trying with 'openByUrl'...`);
     Logger.log(`[AC-M] ${error.message}`);
 

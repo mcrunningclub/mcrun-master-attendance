@@ -9,7 +9,8 @@ const ATTENDANCE_IMPORT_ID = '82376152';
  * URL of sememseter attendance sheet
  * @constant {string}
  */
-const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1SnaD9UO4idXXb07X8EakiItOOORw5UuEOg0dX_an3T4/';
+const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1kUevgOCN1wCdbNiVY412-7ejnlSjtIyKNHFVLV9KK1Q/';
+
 
 /**
  * Triggered when a change occurs in the spreadsheet.
@@ -109,7 +110,7 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
   // Try to send using library first. Attendance sheet aware of new import.
   try {
     Logger.log("\n---START OF 'processImportFromApp' LOG MESSAGES\n\n");
-    Attendance_Code_2024_2025.processImportFromApp(exportJSON);
+    Attendance_Code_2025_2026.processImportFromApp(exportJSON);
     Logger.log("\n---END OF 'processImportFromApp' LOG MESSAGES");
   }
   // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered

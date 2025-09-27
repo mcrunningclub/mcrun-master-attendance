@@ -1,17 +1,3 @@
-// SEMESTER ATTENDANCE SHEET
-/**
- * ID of semester attendance sheet
- * @constant {string}
- */
-const ATTENDANCE_IMPORT_ID = '82376152';
-
-/**
- * URL of sememseter attendance sheet
- * @constant {string}
- */
-const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1kUevgOCN1wCdbNiVY412-7ejnlSjtIyKNHFVLV9KK1Q/';
-
-
 /**
  * Triggered when a change occurs in the spreadsheet.
  *

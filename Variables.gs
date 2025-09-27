@@ -12,6 +12,19 @@ const MASTER_ATTENDANCE_SHEET_ID = '30380045';
 const MASTER_ATTENDANCE_SHEET = SpreadsheetApp.getActiveSpreadsheet().getSheetById(MASTER_ATTENDANCE_SHEET_ID);
 
 /**
+ * ID of semester attendance sheet
+ * @constant {string}
+ */
+const ATTENDANCE_IMPORT_ID = '82376152';
+
+/**
+ * URL of sememseter attendance sheet
+ * @constant {string}
+ */
+const SEMESTER_ATTENDANCE_URL = 'https://docs.google.com/spreadsheets/d/1kUevgOCN1wCdbNiVY412-7ejnlSjtIyKNHFVLV9KK1Q/';
+
+
+/**
  * Indices of columns in attendance sheet
  * @constant
  * @enum {number}

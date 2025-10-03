@@ -49,13 +49,14 @@ function onChange(e) {
 
     // Trigger transfer functions for new submission
     transferToSemesterSheet();
+    console.log('[AC-M] Completed transfer to Points Ledger!');
   }
   catch (error) {
     console.log(error);
     console.log(`Type of change: ${thisChange}`);
 
     if (!(error.message).includes('Please select an active sheet first.')) {
-      throw new Error(error);
+      throw Error(error.message);
     }
 
     console.log(error.message);
@@ -99,22 +100,31 @@ function transferToSemesterSheet(row = getLastSubmission_()) {
     Attendance_Code_2025_2026.processImportFromApp(exportJSON);
     Logger.log("\n---END OF 'processImportFromApp' LOG MESSAGES");
   }
-  // Error occured, send using `openByUrl`. Downside: attendance sheet not triggered
+  // Error occured, send using `openByUrl`. Downside: `onChange` in attendance sheet not triggered
   catch (error) {
-    Logger.log(`[AC-M] Unable to transfer submission with library. Now trying with 'openByUrl'...`);
-    Logger.log(`[AC-M] ${error.message}`);
+    const errorMsg = error.message;
+    Logger.log(`[AC-M] Catch error: ${errorMsg}`);
+    
+    // If import error, try with sheet url
+    if(errorMsg.match(/import failed/i)) {
+      const funcName = Attendance_Code_2025_2026.processImportFromApp.name; 
+      Logger.log(`[AC-M] Unable to transfer submission with '${funcName}'. Now trying with 'openByUrl'...`);
 
-    // Get sheet using url
-    const sheetURL = SEMESTER_ATTENDANCE_URL;
-    const ss = SpreadsheetApp.openByUrl(sheetURL);
-    const importSheet = ss.getSheetById(ATTENDANCE_IMPORT_ID);
+      // Get sheet using url
+      const sheetURL = SEMESTER_ATTENDANCE_URL;
+      const ss = SpreadsheetApp.openByUrl(sheetURL);
+      const importSheet = ss.getSheetById(ATTENDANCE_IMPORT_ID);
 
-    // Export registration to `Import` sheet
-    const newRow = importSheet.getLastRow() + 1;
-    importSheet.appendRow([exportJSON]);
+      // Export registration in newly appended row in `Import` sheet
+      const newRow = importSheet.getLastRow() + 1;
+      importSheet.appendRow([exportJSON]);
 
-    // Log success message
-    Logger.log(`[AC-M] Transfered submission with 'openByUrl to row ${newRow} (Import sheet)`);
+      // Log success message
+      Logger.log(`[AC-M] Successfully transfered submission with 'openByUrl' to Import sheet row #${newRow}`);
+    }
+    else {
+      throw Error(`[AC-M] Not an import error: ${errorMsg}`);
+    }
   }
 
   // Set submission as exported
